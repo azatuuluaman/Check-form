@@ -1,23 +1,12 @@
 from django.shortcuts import render
 from tinydb import TinyDB, Query
 
-db = TinyDB('db.json')
+db = TinyDB('tinydb.json')
 
 User = Query()
 
 
-def insert_db():
-    """ Добавление данных в БД"""
-    db.insert({
-        "name": "Khabib",
-        "email": "Khabib@mail.ru",
-        "phone": "+71231231215",
-        "date": "15.15.1518",
-        "text": "Big text for something about somebody",
-    })
-
-
-def search_db(name, email, phone):
+def search_db(name):
     """ Поиск вводимых данных в базе данных"""
     results = db.search(User.name == name)
     print(results)
@@ -35,3 +24,36 @@ def list_db(request):
                                                 'email': lead_email,
                                                 'phone': phone})
 
+
+test_db = {
+    "User1": {
+        "date_field": "User_phone1",
+        "phone_field": "phone1",
+        "email_field": "email1",
+        "text_field": "text1",
+    },
+    "User2": {
+        "date_field": "User_phone2",
+        "phone_field": "phone2",
+        "email_field": "email2",
+        "text_field": "text2",
+    },
+    "User3": {
+        "date_field": "User_phone3",
+        "phone_field": "phone3",
+        "email_field": "email3",
+        "text_field": "text3",
+    }
+}
+
+
+def check_in_db(obj: str):
+    """
+    Check name in db.
+    """
+    for k, v in test_db.items():
+        if obj in v.values():
+            print(k)
+
+
+# check_in_db(input())
