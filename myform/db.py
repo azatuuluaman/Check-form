@@ -1,30 +1,12 @@
+from django.core.exceptions import ValidationError
+
+from django.utils.translation import gettext_lazy as _
 from django.shortcuts import render
 from tinydb import TinyDB, Query
 
 db = TinyDB('tinydb.json')
 
 User = Query()
-
-
-def search_db(name):
-    """ Поиск вводимых данных в базе данных"""
-    results = db.search(User.name == name)
-    print(results)
-    if User.filter(name=name).exists():
-        print()
-
-
-def list_db(request):
-    """ Вывод искомых данных"""
-    user_name = request.POST['name']
-    lead_email = request.POST.get['email', False]
-    phone = request.POST['phone']
-
-    return render(request, 'myform/post.html', {'name': user_name,
-                                                'email': lead_email,
-                                                'phone': phone})
-
-
 test_db = {
     "User1": {
         "date_field": "User_phone1",
@@ -47,13 +29,24 @@ test_db = {
 }
 
 
+# def list_db(request):
+#     """ Вывод искомых данных"""
+#     user_name = request.POST['name']
+#     lead_email = request.POST.get['email', False]
+#     phone = request.POST['phone']
+#
+#     return render(request, 'myform/post.html', {'name': user_name,
+#                                                 'email': lead_email,
+#                                                 'phone': phone})
+
+
 def check_in_db(obj: str):
     """
-    Check name in db.
+    Проверка наличия объекта в БД. Проверяет только одно значение. УБрать остальные две в   html
     """
     for k, v in test_db.items():
         if obj in v.values():
-            print(k)
+            return k
+        elif obj not in v.values():
+            return 'Object is not in db'
 
-
-# check_in_db(input())

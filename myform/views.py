@@ -1,18 +1,5 @@
-from django.http import JsonResponse
 from django.shortcuts import render
-
-from myform.db import search_db
-from myform.models import Template, Field
-
-
-class template_view():
-    def post(self, request):
-        form = type_form(request.GET)
-        for one, two in form.items():
-            three = Field.object.filter(name_field=one, type_field=two)
-            print(three.values_list())
-
-        return JsonResponse(form)
+from myform.db import check_in_db
 
 
 def post_request(request):
@@ -20,9 +7,11 @@ def post_request(request):
 
 
 def post_list(request):
-    """ Вывод значений"""
+    """ Вывод значений
+    Если находит искомое, то показывает на мониторе.
+    Если нет такого, то показывает, что нет такого"""
     user_name = request.POST['name']
-
-    search_db(user_name)
-
-    return render(request, 'myform/post.html', {'name': user_name})
+    if check_in_db(user_name) == 'Object is not in db':
+        return render(request, 'myform/post.html', {'name': 'нет такого'})
+    else:
+        return render(request, 'myform/post.html', {'name': user_name})

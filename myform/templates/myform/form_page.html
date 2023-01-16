@@ -5,16 +5,16 @@
     <title>Form page</title>
 </head>
 <body>
-<p> Страница для ввода искомых значений </p>
+<p> Страница для поиска по одному значению из словаря, возвращает это же значение. </p>
 
 <form action="{% url 'post'%}" method="POST">
     {% csrf_token %}
     <label> Name</label>
     <input name="name">
-    <label> Email </label>
-    <input name="lead_email">
-    <label> Phone </label>
-    <input name="phone">
+<!--    <label> Email </label>-->
+<!--    <input name="lead_email">-->
+<!--    <label> Phone </label>-->
+<!--    <input name="phone">-->
     <button type="submit"> Send </button>
 </form>
 
